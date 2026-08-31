@@ -1,0 +1,32 @@
+{
+  "requirementId": "",
+  "workspaceRoot": "",
+  "outputDir": "",
+  "primaryProjectPath": "",
+  "projectPaths": [],
+  "requirementDocPath": null,
+  "uiSourceType": "local",
+  "uiDir": null,
+  "assetsDir": null,
+  "apiDocPath": null,
+  "executionMode": "full_delivery",
+  "targetStage": "delivery",
+  "requirementVersion": null,
+  "planBasedOnRequirementVersion": null,
+  "planVersion": null,
+  "currentStage": "context",
+  "status": "active",
+  "stageStatus": {
+    "context": "active",
+    "planning": "pending",
+    "implementation": "pending",
+    "verification": "pending",
+    "delivery": "pending"
+  },
+  "blockingItems": [],
+  "invalidatedItems": [],
+  "approvedPlanVersion": null,
+  "approvedAt": null,
+  "approvedByRole": null,
+  "lastUpdate": null
+}

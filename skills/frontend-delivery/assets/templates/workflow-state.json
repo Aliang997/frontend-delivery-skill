@@ -1,11 +1,12 @@
 {
+  "schemaVersion": 2,
   "requirementId": "",
   "workspaceRoot": "",
   "outputDir": "",
   "primaryProjectPath": "",
   "projectPaths": [],
   "requirementDocPath": null,
-  "uiSourceType": "local",
+  "uiSourceType": "none",
   "uiDir": null,
   "assetsDir": null,
   "apiDocPath": null,
@@ -23,10 +24,8 @@
     "verification": "pending",
     "delivery": "pending"
   },
+  "taskApprovals": [],
   "blockingItems": [],
   "invalidatedItems": [],
-  "approvedPlanVersion": null,
-  "approvedAt": null,
-  "approvedByRole": null,
   "lastUpdate": null
 }

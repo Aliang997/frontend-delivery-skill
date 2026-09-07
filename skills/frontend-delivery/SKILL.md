@@ -1,6 +1,8 @@
 ---
 name: frontend-delivery
 description: 通用前端需求交付工作流。当用户要求评审前端需求、制定前端技术计划、按计划实现页面与接口、或完成前端需求的测试与交付总结时使用。支持 Web、H5、PC 管理端和小程序，不绑定具体技术栈。
+metadata:
+  version: "1.0.0"
 ---
 
 # Frontend Delivery

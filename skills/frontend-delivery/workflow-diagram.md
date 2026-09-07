@@ -1,302 +1,138 @@
-# Frontend Delivery 工作流程图
+# Frontend Delivery v2.2.0 工作流程图
 
-旧版辅助资料：本图未反映小改动、常规需求和完整流程分流，不作为当前执行依据。当前规则见 [SKILL.md](SKILL.md) 及其参考文件。
+本图对应 frontend-delivery v2.2.0。执行规则以同版本 SKILL.md 及 references/ 为准。
 
-## 1. 五阶段总览
+2.2.0 在 2.1.0 基础上增加动效还原、Figma 来源变更检测，以及国际化、主题、浏览器、SSR/Hydration 和 SEO 的独立风险触发。
 
-```mermaid
-graph TD
-    Start([开始]) --> CheckState{是否存在<br/>状态文件?}
-    CheckState -->|否| Stage1[阶段一<br/>理解上下文与需求评审]
-    CheckState -->|是| Recovery[按状态恢复]
-    
-    Recovery --> Stage1
-    Stage1 --> Gate1{门禁一<br/>P0全部解决?}
-    Gate1 -->|否| Block1[暂停等待确认]
-    Gate1 -->|是| Stage2[阶段二<br/>制定计划]
-    
-    Block1 -.产品确认.-> Gate1
-    
-    Stage2 --> Gate2{门禁二<br/>P1解决且批准?}
-    Gate2 -->|否| Block2[等待批准]
-    Gate2 -->|是| Stage3[阶段三<br/>实现功能]
-    
-    Block2 -.开发批准.-> Gate2
-    
-    Stage3 --> Stage4[阶段四<br/>验证质量]
-    Stage4 --> Stage5[阶段五<br/>交付总结]
-    Stage5 --> Complete([交付完成])
-    
-    Stage1 -.需求变更.-> ChangeFlow[变更控制]
-    Stage2 -.需求变更.-> ChangeFlow
-    Stage3 -.需求变更.-> ChangeFlow
-    Stage4 -.需求变更.-> ChangeFlow
-    ChangeFlow -.处理完毕.-> Recovery
-
-    style Gate1 fill:#ff9999
-    style Gate2 fill:#ff9999
-    style Block1 fill:#ffcccc
-    style Block2 fill:#ffcccc
-    style Complete fill:#99ff99
-```
-
-## 2. 状态机转换
+## 1. 流程深度选择
 
 ```mermaid
-stateDiagram-v2
-    [*] --> pending
-    
-    pending --> active
-    pending --> blocked
-    
-    active --> awaiting_confirmation
-    active --> blocked
-    active --> complete
-    
-    awaiting_confirmation --> active
-    awaiting_confirmation --> blocked
-    
-    blocked --> active
-    blocked --> pending
-    
-    complete --> invalidated
-    invalidated --> active
-    
-    complete --> [*]
+flowchart TD
+ A(["接收前端需求"]) --> B{"影响和不确定性"}
+ B -->|"明确、局部、低风险"| S["小改动"]
+ B -->|"单页面或单模块、影响可控"| N["常规需求"]
+ B -->|"跨模块、复杂依赖或高风险"| F["完整流程"]
+ S --> S1["读取相关规范与代码"]
+ S1 --> S2["直接修改并做必要检查"]
+ N --> N1["维护简短任务清单"]
+ N1 --> N2{"需要跨会话、交接或等待外部回复"}
+ N2 -->|"是"| N3["记录 task.md"]
+ N2 -->|"否"| N4["在当前对话推进"]
+ F --> F1["按阶段维护完整产物与状态"]
+ S2 --> Z(["按用户终点交付"])
+ N3 --> Z
+ N4 --> Z
+ F1 --> Z
 ```
 
-## 3. 门禁一：需求确认
+## 2. 执行终点
 
 ```mermaid
-graph LR
-    A[生成context.md] --> B{检查P0问题}
-    B -->|有未解决P0| C[标记blocked]
-    B -->|P0全部解决| D[标记complete]
-    
-    C --> E[输出待确认清单]
-    E -.等待产品回复.-> F[更新文档]
-    F --> B
-    
-    D --> G[进入阶段二]
-
-    style C fill:#ffcccc
-    style D fill:#ccffcc
+flowchart LR
+ A(["用户请求"]) --> B{"需要做到哪里"}
+ B -->|"只评审"| R["分析需求、影响和问题"]
+ B -->|"只计划"| P1["完成需求分析"]
+ P1 --> P2["形成计划或缺口草案"]
+ B -->|"完整交付"| D1["分析与计划"]
+ D1 --> D2["实现获准任务"]
+ D2 --> D3["完成必要验证与交接"]
+ R --> ER(["评审终点"])
+ P2 --> EP(["计划终点"])
+ D3 --> ED(["交付终点"])
 ```
 
-## 4. 门禁二：计划批准
+## 3. 完整流程与任务级批准
 
 ```mermaid
-graph LR
-    A[生成plan.md] --> B{检查P1问题}
-    B -->|有未解决P1| C[列出影响<br/>等待解决]
-    B -->|P1全部解决| D{开发是否批准?}
-    
-    C -.P1解决.-> B
-    
-    D -->|要求修改| E[修改计划<br/>更新版本]
-    D -->|等待中| F[awaiting_confirmation]
-    D -->|批准| G[记录批准信息]
-    
-    E --> D
-    G --> H[进入阶段三]
-
-    style F fill:#ffffcc
-    style G fill:#ccffcc
+flowchart TD
+ C["context.md：事实、验收项、问题"] --> G{"业务前提是否满足"}
+ G -->|"受影响范围缺资料"| B["仅阻塞相关任务"]
+ G -->|"可继续"| P["plan.md：任务、版本、依赖、验证"]
+ B --> P
+ P --> A{"任务 ID 与版本是否获准"}
+ A -->|"未批准"| W["等待该任务批准"]
+ A -->|"已批准且依赖有效"| I["实现该任务"]
+ W --> O{"是否还有独立获准任务"}
+ O -->|"有"| I
+ O -->|"无"| H["等待确认或解除阻塞"]
+ I --> V["执行允许的必要验证"]
+ V --> D["delivery.md：证据、风险、交接"]
+ X["需求、UI、契约或方案变化"] --> Y["分类并定位影响"]
+ Y --> U["仅失效受影响任务、批准和证据"]
+ U --> P
 ```
 
-## 5. 变更分类决策树
+## 4. 状态、产物与风险职责
 
 ```mermaid
-graph TD
-    A([收到新信息]) --> B{变更分类}
-    
-    B -->|需求澄清| C1[更新context.md]
-    B -->|需求变更| C2[影响分析<br/>更新基线]
-    B -->|UI变更| C3[重新分析UI]
-    B -->|技术调整| C4[更新plan.md]
-    B -->|缺陷修复| C5[直接修复]
-    
-    C1 --> D1[追加decisions.md]
-    C2 --> D2[清空批准信息<br/>重新批准]
-    C3 --> D3[更新资源映射]
-    C4 --> D4[必要时重批]
-    C5 --> D5[补充测试]
-    
-    D1 --> E[继续执行]
-    D2 --> E
-    D3 --> E
-    D4 --> E
-    D5 --> E
-
-    style C2 fill:#ff9999
-    style D2 fill:#ffcccc
+flowchart LR
+ C["context.md"] --> P["plan.md"]
+ P --> I["实现"]
+ I --> D["delivery.md"]
+ DEC["decisions.md"] -. "确认与批准历史" .-> C
+ DEC -. "确认与批准历史" .-> P
+ WS["workflow-state.json"] -. "阶段、批准、阻塞、失效索引" .-> C
+ WS -.-> P
+ WS -.-> D
+ R["R1-R8，R8 各维度独立触发"] --> V["按相关性选择验证"]
+ V --> D
+ E["项目代码评审、CI、发布要求"] --> D
 ```
 
-## 6. 阻塞范围控制
+## 5. UI、动效与 Figma 来源闭环
 
 ```mermaid
-graph TD
-    A[遇到阻塞] --> B{阻塞范围}
-    
-    B -->|全局| C1[缺少需求描述<br/>missing_requirement]
-    B -->|项目级| C2[项目不可访问<br/>inaccessible_project]
-    B -->|页面级| C3[缺少UI<br/>missing_ui]
-    B -->|任务级| C4[缺少接口契约<br/>missing_api_contract]
-    B -->|问题级| C5[P0未解决<br/>p0_unresolved]
-    
-    C1 --> D1{其他工作<br/>能继续?}
-    C2 --> D2{其他项目<br/>能继续?}
-    C3 --> D3{其他页面<br/>能继续?}
-    C4 --> D4{其他任务<br/>能继续?}
-    C5 --> D5{是否影响<br/>制定计划?}
-    
-    D1 -->|否| E1[全局blocked]
-    D1 -->|是| E2[部分继续]
-    D2 -->|是| E2
-    D3 -->|是| E2
-    D4 -->|是| E2
-    D5 -->|是| E3[context=blocked]
-    D5 -->|否| E2
-    
-    E1 --> F[等待解除]
-    E2 --> F
-    E3 --> F
-    F -.解除阻塞.-> G[恢复执行]
-
-    style E1 fill:#ff6666
-    style E2 fill:#ffcc66
-    style G fill:#66ff66
+flowchart TD
+ A(["收到 UI 还原任务"]) --> S{"来源类型"}
+ S -->|"Figma 节点"| F["读取设计上下文、组件、变量与资源"]
+ S -->|"图片、截图或切图"| P["读取原图并映射状态、视口与资源"]
+ S -->|"Prototype、动效标注或参考视频"| M["读取明确动效依据"]
+ F --> B["记录 fileKey、nodeId、读取时间和可用版本标识"]
+ P --> I["适配项目组件和设计变量"]
+ M --> MM["映射触发、起止状态、时长、缓动与中断"]
+ B --> I
+ MM --> I
+ I --> V{"证据类型"}
+ V -->|"静态视觉"| SS["截图并与来源比较"]
+ V -->|"动效"| MV["实际交互或录屏比较"]
+ SS --> E["记录视觉证据"]
+ MV --> E
+ B --> R{"跨会话、外部等待、长任务或交付前可能变化"}
+ R -->|"是"| RR["重新读取相关节点"]
+ RR --> CH{"设计是否变化"}
+ CH -->|"否"| KEEP["沿用计划、批准和证据"]
+ CH -->|"是"| CC["仅失效受影响任务、批准和证据"]
+ R -->|"否"| KEEP
 ```
 
-## 7. 产物文件关系
+## 6. R8 条件性风险独立触发
 
 ```mermaid
-graph LR
-    subgraph 输入
-        I1[需求文档]
-        I2[UI目录]
-        I3[切图目录]
-        I4[接口文档]
-        I5[项目代码]
-    end
-    
-    subgraph 产物
-        P1[workflow-state.json]
-        P2[context.md]
-        P3[plan.md]
-        P4[delivery.md]
-        P5[decisions.md]
-    end
-    
-    subgraph 输出
-        O1[业务代码]
-        O2[测试用例]
-        O3[交付报告]
-    end
-    
-    I1 --> P2
-    I2 --> P2
-    I2 --> P3
-    I3 --> P3
-    I4 --> P3
-    I5 --> P2
-    I5 --> P3
-    
-    P2 --> P1
-    P2 --> P3
-    P3 --> P1
-    P3 --> O1
-    P3 --> O2
-    
-    O1 --> P4
-    O2 --> P4
-    P4 --> O3
-    
-    P5 -.追加记录.-> P2
-    P5 -.追加记录.-> P3
-    P5 -.追加记录.-> P4
-
-    style P1 fill:#e1f5ff
-    style P2 fill:#fff4e1
-    style P3 fill:#ffe1f5
-    style P4 fill:#e1ffe1
-    style P5 fill:#f5e1ff
+flowchart TD
+ A(["读取需求、目标文件与相关项目事实"]) --> I{"启用多语言或改动翻译与文本布局"}
+ A --> T{"存在主题体系或改动颜色与资源"}
+ A --> B{"使用受目标浏览器影响的 CSS 或 Web API"}
+ A --> S{"页面使用 SSR、SSG 或同构渲染"}
+ A --> E{"页面公开可索引或明确涉及 SEO"}
+ I -->|"是"| RI["检查国际化"]
+ T -->|"是"| RT["检查主题"]
+ B -->|"是"| RB["检查浏览器兼容"]
+ S -->|"是"| RS["检查 SSR 与 Hydration"]
+ E -->|"是"| RE["检查 SEO"]
+ I -->|"否"| NA["该维度不适用"]
+ T -->|"否"| NA
+ B -->|"否"| NA
+ S -->|"否"| NA
+ E -->|"否"| NA
+ RI --> V["只为命中维度建立验证项"]
+ RT --> V
+ RB --> V
+ RS --> V
+ RE --> V
 ```
 
-## 8. 完整执行流程（含异常路径）
+## 使用说明
 
-```mermaid
-graph TD
-    Start([接收需求]) --> A1[登记输入]
-    A1 --> A2[分析项目]
-    A2 --> A3[分析需求]
-    A3 --> A4[需求评审]
-    A4 --> G1{门禁一}
-    
-    G1 -->|P0未解决| Wait1[暂停]
-    G1 -->|通过| B1[检查UI依赖]
-    
-    Wait1 -.确认后.-> G1
-    
-    B1 --> B2[分析UI和资源]
-    B2 --> B3[制定技术方案]
-    B3 --> B4[生成plan.md]
-    B4 --> G2{门禁二}
-    
-    G2 -->|P1未解决或未批准| Wait2[暂停]
-    G2 -->|批准| C1[按计划实现]
-    
-    Wait2 -.批准后.-> G2
-    
-    C1 --> C2{遇到问题?}
-    C2 -->|UI缺失| Wait3[范围阻塞]
-    C2 -->|契约不符| Wait3
-    C2 -->|需扩大范围| Wait4[询问确认]
-    C2 -->|正常| C3[实现完成]
-    
-    Wait3 -.解决后.-> C1
-    Wait4 -.确认后.-> C1
-    
-    C3 --> D1[执行验证]
-    D1 --> D2{验证结果}
-    D2 -->|失败| D3{能修复?}
-    D2 -->|通过| D4{需人工验证?}
-    
-    D3 -->|是| Fix[修复]
-    D3 -->|否| Wait5[记录失败]
-    
-    Fix --> D1
-    Wait5 -.解决后.-> D1
-    
-    D4 -->|是| Wait6[等待确认]
-    D4 -->|否| E1[生成交付报告]
-    
-    Wait6 -.确认后.-> E1
-    
-    E1 --> End([交付完成])
-
-    style G1 fill:#ff9999
-    style G2 fill:#ff9999
-    style Wait1 fill:#ffcccc
-    style Wait2 fill:#ffffcc
-    style Wait3 fill:#ffcccc
-    style Wait4 fill:#ffffcc
-    style Wait5 fill:#ffcccc
-    style Wait6 fill:#ffffcc
-    style End fill:#99ff99
-```
-
----
-
-## 说明
-
-1. **简化设计**：将原来的超大图拆分成 8 个独立图表，每个聚焦一个核心流程
-2. **避免节点冲突**：每个图表使用独立的节点 ID（A1, B1, C1 等）
-3. **清晰的视觉层次**：
-   - 红色：门禁和关键决策
-   - 黄色：等待确认
-   - 粉色：阻塞状态
-   - 绿色：完成状态
-4. **渐进式阅读**：从总览到细节，从状态机到具体流程
-
-每个图表都可以独立渲染，适合在文档、GitHub、Obsidian 等工具中查看。
+- 从流程深度开始，只进入当前任务需要的路径。
+- 执行终点由用户请求决定，不因使用完整流程自动扩大授权。
+- 状态、批准、风险和证据的详细规则以同版本参考文件为准。

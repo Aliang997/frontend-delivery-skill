@@ -16,7 +16,7 @@ JSON 只保存阶段摘要、任务批准和阻塞/失效索引，不复制正�
 - workspaceRoot、outputDir、primaryProjectPath：当前机器规范化绝对路径。
 - projectPaths：项目根路径数组。归属按路径段包含关系选最深项目，不能用裸字符串前缀匹配；重复根先去重。
 - requirementDocPath、uiDir、assetsDir、apiDocPath：可空；无目录不代表没有文字或现有实现依据。
-- uiSourceType：local、text、existing、mixed、none；具体来源在计划中记录。
+- uiSourceType：figma、image、text、existing、mixed、none；旧状态中的 local 继续按本地图片或资源读取，新记录使用 image。具体 Figma 节点或图片来源在计划中记录。
 - executionMode：review_only、planning_only、full_delivery。
 - targetStage：上述模式分别对应 context、planning、delivery。先按用户请求选模式，不能把模板默认值当授权。
 - requirementVersion：需求基线的来源版本或带时区时间；无基线为 null。

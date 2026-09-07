@@ -2,7 +2,7 @@
 name: frontend-delivery
 description: 当前端需求需要评审、制定计划、实现页面或接口、修复问题、验证或交付时使用。支持 Web、H5、PC 管理端和小程序。明确的小改动使用简短路径，不强制进入完整流程。
 metadata:
-  version: "2.1.0"
+  version: "2.2.0"
 ---
 
 # Frontend Delivery
@@ -71,10 +71,10 @@ metadata:
 - 分析需求或复用范围：references/project-and-requirement-review.md
 - 判断确认和任务批准：references/workflow-gates.md
 - UI、数据流、文件与验证计划：references/planning-and-ui.md
-- 按图片、截图或 Figma 节点还原 UI：references/ui-restoration.md
+- 按图片、截图或 Figma 节点还原 UI，或还原明确动效：references/ui-restoration.md
 - 实现或接口对接：references/implementation-and-api.md
 - 验证与交付：references/testing-and-delivery.md
-- 涉及异步查询、缓存、金额日期、权限写操作、表单弹窗、性能多端或发布兼容：按 references/frontend-risk-checks.md 的场景索引读取对应章节。
+- 涉及异步查询、缓存、金额日期、权限写操作、表单弹窗、性能多端、发布兼容，或国际化、主题、浏览器、SSR/Hydration、SEO 条件：按 references/frontend-risk-checks.md 的场景索引读取对应章节。
 - 需求或方案发生变化：references/change-control.md
 - 中断恢复、流程切换、旧记录：references/recovery-scenarios.md
 - 完整流程判断任务可执行性、核对批准、读写状态或迁移：references/state-machine.md

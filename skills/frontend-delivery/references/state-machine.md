@@ -18,7 +18,7 @@ JSON 只保存阶段摘要、任务批准和阻塞/失效索引，不复制正�
 - requirementDocPath、uiDir、assetsDir、apiDocPath：可空；无目录不代表没有文字或现有实现依据。
 - uiSourceType：figma、image、text、existing、mixed、none；旧状态中的 local 继续按本地图片或资源读取，新记录使用 image。具体 Figma 节点或图片来源在计划中记录。
 - executionMode：review_only、planning_only、full_delivery。
-- targetStage：上述模式分别对应 context、planning、delivery。先按用户请求选模式，不能把模板默认值当授权。
+- targetStage：上述模式分别对应 context、planning、delivery。先按用户请求选模式，不能把模板默认值当授权，也不能因验证受限自行缩小终点。
 - requirementVersion：需求基线的来源版本或带时区时间；无基线为 null。
 - planVersion：当前计划可执行内容版本，无计划为 null。
 - planBasedOnRequirementVersion：整个计划已核对到的需求版本，无计划为 null。
@@ -38,13 +38,13 @@ JSON 只保存阶段摘要、任务批准和阻塞/失效索引，不复制正�
 plan.md 每个任务保留：
 - 稳定 ID、所属项目、验收项 ID、可执行内容、准确文件路径。
 - 前置任务 ID、接口或 UI 来源、必要验证 ID。
-- taskVersion：初版为 1，可执行内容变化时递增。
+- taskVersion：初版为 1，需批准的任务范围或约定变化时递增，具体边界见下文。
 - 进度：pending、active、complete；阻塞和失效引用 JSON 对应项，不维护第二份原因。
 
 每个验收项有任务，每个任务有验证方式；无依赖写“无”。
 任务删除后 ID 不复用，必要时在决定里注明替代任务。
-进度、错字、结果和估时变化不增加 taskVersion。
-需求、文件范围、契约、依赖或验证要求改变时，提高相关任务版本；下游实际前提或验证依据改变时一并更新。
+进度、错字、结果和估时变化不增加 taskVersion。已授权边界内的文件组织、局部实现细节及补充等价验证步骤，未改变行为、契约、关键技术方案、依赖责任、风险或验收标准时，只更新计划内容并沿用批准。
+改变上述约定、扩大授权文件或模块范围、放宽验证标准时，提高相关任务版本并核对批准；用户明确限定的文件清单仍是授权边界。下游的批准范围或约定也受影响时再更新其版本，不因上游版本变化机械重批。旧记录的任务及批准版本不回退、不重编号，也不把既有版本不匹配自动改成匹配。
 影响尚不确定时，先用范围级阻塞保护可能受影响部分，不假定未列出的任务安全。
 
 ## taskApprovals
@@ -89,12 +89,12 @@ pending_decision 覆盖工作区冲突、范围或依赖选择、必要验证不
 未确认信息先记问题和阻塞，不引用不存在的变更决定。
 失效表示旧产出不能作为有效依据，不禁止针对该产出的重做。
 - context：相关需求重新分析并确认后解除。
-- planning：相关计划更新且必要任务批准有效后解除。
+- planning：相关计划已按当前基线更新，草案缺口明确后解除；任务批准独立判断，不作为计划内容恢复的条件。
 - implementation：对应代码确已重做后解除。
 - verification：对应证据重新取得，或按验证规则形成有效的既有问题风险接受结论后解除。
 - delivery：更新后的任务与证据已核对、结果已记录后解除。
 
-批准新计划只解除 planning 失效，不能清掉实现或验证待办。
+解除 planning 失效只证明计划内容已恢复；取得批准不能代替内容更新，也不能清掉实现或验证待办。
 局部失效保留其他结果；阶段整体需重做才标 invalidated，但任何必要局部工作尚未恢复时，该阶段不能保持 complete。
 
 ## 某任务能否实现
@@ -147,5 +147,6 @@ context、planning 可为 complete 而后续仍阻塞或待批准。只评审/�
 - 正例：T-01 缺契约，但已获准且独立的 T-02 可执行，全局为 active；T-02 完成后若仅剩缺契约的任务，才为 blocked。
 - 反例：所需输入已齐，只待用户批准具体任务，却因存在 pending_decision 就标 blocked；应为 awaiting_confirmation。
 
+用户明确由其完成验证时，代码与交接清单完成可以结束本次 AI 委托，但不代表全局 status、verification 或 delivery 已完成；整体目标仍含验收时保持 awaiting_confirmation，收到人工结果后继续更新。
 currentStage 取主要的最早待推进阶段；多个范围可分别在计划、实现或验证中。
 必要人工验证未完成时可先写交接报告，但 delivery 不得 complete。

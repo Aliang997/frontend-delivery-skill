@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Frontend Delivery v2.2.0 工作流程图</title>
+<title>Frontend Delivery v2.3.0 工作流程图</title>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 <style>
 :root { color-scheme:light; --blue:#2563eb; --ink:#172033; --muted:#5d687a; --line:#dbe3ef; --paper:#fff; --bg:#f4f7fb; }
@@ -26,17 +26,18 @@ footer { margin-top:28px; color:var(--muted); font-size:14px; }
 </head>
 <body>
 <main>
-<header><div class="version">v2.2.0</div><h1>Frontend Delivery 工作流程图</h1><p>本图对应 frontend-delivery v2.2.0。执行规则以同版本 SKILL.md 及 references/ 为准。</p><p>2.2.0 在 2.1.0 基础上增加动效还原、Figma 来源变更检测，以及国际化、主题、浏览器、SSR/Hydration 和 SEO 的独立风险触发。</p></header>
+<header><div class="version">v2.3.0</div><h1>Frontend Delivery 工作流程图</h1><p>本图对应 frontend-delivery v2.3.0。执行规则以同版本 SKILL.md 及 references/ 为准。</p><p>2.3.0 收紧流程与批准边界，补充实现交接终点，并同步 Figma 基线确认及 R8 改动相关性条件。</p></header>
 <nav class="toc"><a href="#diagram1">1. 流程深度选择</a><a href="#diagram2">2. 执行终点</a><a href="#diagram3">3. 完整流程与任务级批准</a><a href="#diagram4">4. 状态、产物与风险职责</a><a href="#diagram5">5. UI、动效与 Figma 来源闭环</a><a href="#diagram6">6. R8 条件性风险独立触发</a></nav>
 <section id="diagram1"><h2>1. 流程深度选择</h2><div class="diagram-card"><pre class="mermaid">flowchart TD
- A([&quot;接收前端需求&quot;]) --&gt; B{&quot;影响和不确定性&quot;}
+ A([&quot;接收前端需求&quot;]) --&gt; E[&quot;识别用户要求的执行终点&quot;]
+ E --&gt; B{&quot;影响和不确定性&quot;}
  B --&gt;|&quot;明确、局部、低风险&quot;| S[&quot;小改动&quot;]
- B --&gt;|&quot;单页面或单模块、影响可控&quot;| N[&quot;常规需求&quot;]
- B --&gt;|&quot;跨模块、复杂依赖或高风险&quot;| F[&quot;完整流程&quot;]
+ B --&gt;|&quot;影响可控、兼容性明确&quot;| N[&quot;常规需求&quot;]
+ B --&gt;|&quot;实质兼容风险、复杂依赖、关键规则分范围确认或高风险&quot;| F[&quot;完整流程&quot;]
  S --&gt; S1[&quot;读取相关规范与代码&quot;]
- S1 --&gt; S2[&quot;直接修改并做必要检查&quot;]
+ S1 --&gt; S2[&quot;按终点评审、计划或完成已授权修改&quot;]
  N --&gt; N1[&quot;维护简短任务清单&quot;]
- N1 --&gt; N2{&quot;需要跨会话、交接或等待外部回复&quot;}
+ N1 --&gt; N2{&quot;跨会话、交接、多项待确认、等待外部回复续做或用户要求记录&quot;}
  N2 --&gt;|&quot;是&quot;| N3[&quot;记录 task.md&quot;]
  N2 --&gt;|&quot;否&quot;| N4[&quot;在当前对话推进&quot;]
  F --&gt; F1[&quot;按阶段维护完整产物与状态&quot;]
@@ -48,9 +49,12 @@ footer { margin-top:28px; color:var(--muted); font-size:14px; }
  B --&gt;|&quot;只评审&quot;| R[&quot;分析需求、影响和问题&quot;]
  B --&gt;|&quot;只计划&quot;| P1[&quot;完成需求分析&quot;]
  P1 --&gt; P2[&quot;形成计划或缺口草案&quot;]
- B --&gt;|&quot;完整交付&quot;| D1[&quot;分析与计划&quot;]
+ B --&gt;|&quot;要求实现&quot;| D1[&quot;分析与计划&quot;]
  D1 --&gt; D2[&quot;实现获准任务&quot;]
- D2 --&gt; D3[&quot;完成必要验证与交接&quot;]
+ D2 --&gt; G{&quot;是否明确只委托代码交接&quot;}
+ G --&gt;|&quot;是，用户负责验证&quot;| H[&quot;交接代码、未验证项、步骤及责任人&quot;]
+ H --&gt; EH([&quot;本次代码交接完成，整体验收待验证&quot;])
+ G --&gt;|&quot;否，整体目标包含验收&quot;| D3[&quot;完成必要验证与交接&quot;]
  R --&gt; ER([&quot;评审终点&quot;])
  P2 --&gt; EP([&quot;计划终点&quot;])
  D3 --&gt; ED([&quot;交付终点&quot;])</pre></div></section><section id="diagram3"><h2>3. 完整流程与任务级批准</h2><div class="diagram-card"><pre class="mermaid">flowchart TD
@@ -58,16 +62,19 @@ footer { margin-top:28px; color:var(--muted); font-size:14px; }
  G --&gt;|&quot;受影响范围缺资料&quot;| B[&quot;仅阻塞相关任务&quot;]
  G --&gt;|&quot;可继续&quot;| P[&quot;plan.md：任务、版本、依赖、验证&quot;]
  B --&gt; P
- P --&gt; A{&quot;任务 ID 与版本是否获准&quot;}
+ P --&gt; A{&quot;计划内容已更新，独立核对任务批准与前提&quot;}
  A --&gt;|&quot;未批准&quot;| W[&quot;等待该任务批准&quot;]
  A --&gt;|&quot;已批准且依赖有效&quot;| I[&quot;实现该任务&quot;]
  W --&gt; O{&quot;是否还有独立获准任务&quot;}
  O --&gt;|&quot;有&quot;| I
  O --&gt;|&quot;无&quot;| H[&quot;等待确认或解除阻塞&quot;]
- I --&gt; V[&quot;执行允许的必要验证&quot;]
+ I --&gt; V[&quot;按委托执行允许的必要验证或交接人工步骤&quot;]
  V --&gt; D[&quot;delivery.md：证据、风险、交接&quot;]
  X[&quot;需求、UI、契约或方案变化&quot;] --&gt; Y[&quot;分类并定位影响&quot;]
- Y --&gt; U[&quot;仅失效受影响任务、批准和证据&quot;]
+ Y --&gt; G2{&quot;是否改变已批准范围或约定&quot;}
+ G2 --&gt;|&quot;是&quot;| U[&quot;更新相关任务版本并核对批准与证据&quot;]
+ G2 --&gt;|&quot;否&quot;| K[&quot;更新计划细节、沿用批准，核对受影响证据&quot;]
+ K --&gt; P
  U --&gt; P</pre></div></section><section id="diagram4"><h2>4. 状态、产物与风险职责</h2><div class="diagram-card"><pre class="mermaid">flowchart LR
  C[&quot;context.md&quot;] --&gt; P[&quot;plan.md&quot;]
  P --&gt; I[&quot;实现&quot;]
@@ -84,7 +91,7 @@ footer { margin-top:28px; color:var(--muted); font-size:14px; }
  S --&gt;|&quot;Figma 节点&quot;| F[&quot;读取设计上下文、组件、变量与资源&quot;]
  S --&gt;|&quot;图片、截图或切图&quot;| P[&quot;读取原图并映射状态、视口与资源&quot;]
  S --&gt;|&quot;Prototype、动效标注或参考视频&quot;| M[&quot;读取明确动效依据&quot;]
- F --&gt; B[&quot;记录 fileKey、nodeId、读取时间和可用版本标识&quot;]
+ F --&gt; B[&quot;记录节点、版本及固定比较依据&quot;]
  P --&gt; I[&quot;适配项目组件和设计变量&quot;]
  M --&gt; MM[&quot;映射触发、起止状态、时长、缓动与中断&quot;]
  B --&gt; I
@@ -98,13 +105,18 @@ footer { margin-top:28px; color:var(--muted); font-size:14px; }
  R --&gt;|&quot;是&quot;| RR[&quot;重新读取相关节点&quot;]
  RR --&gt; CH{&quot;设计是否变化&quot;}
  CH --&gt;|&quot;否&quot;| KEEP[&quot;沿用计划、批准和证据&quot;]
- CH --&gt;|&quot;是&quot;| CC[&quot;仅失效受影响任务、批准和证据&quot;]
+ CH --&gt;|&quot;是&quot;| AD{&quot;是否确认纳入本次基线&quot;}
+ AD --&gt;|&quot;是&quot;| CC[&quot;更新基线及受影响计划、批准和证据&quot;]
+ AD --&gt;|&quot;否，明确范围外&quot;| KEEP
+ AD --&gt;|&quot;未确定&quot;| Q[&quot;记录问题，仅阻塞影响目标的范围&quot;]
+ CH --&gt;|&quot;旧依据不足，无法确认&quot;| Q
+ CC --&gt; I
  R --&gt;|&quot;否&quot;| KEEP</pre></div></section><section id="diagram6"><h2>6. R8 条件性风险独立触发</h2><div class="diagram-card"><pre class="mermaid">flowchart TD
- A([&quot;读取需求、目标文件与相关项目事实&quot;]) --&gt; I{&quot;启用多语言或改动翻译与文本布局&quot;}
- A --&gt; T{&quot;存在主题体系或改动颜色与资源&quot;}
- A --&gt; B{&quot;使用受目标浏览器影响的 CSS 或 Web API&quot;}
- A --&gt; S{&quot;页面使用 SSR、SSG 或同构渲染&quot;}
- A --&gt; E{&quot;页面公开可索引或明确涉及 SEO&quot;}
+ A([&quot;读取需求、目标文件与相关项目事实&quot;]) --&gt; I{&quot;已有或明确要求多语言，且改动相关文案、格式、布局或切换&quot;}
+ A --&gt; T{&quot;已有或明确要求主题，且改动颜色、资源、变量或切换&quot;}
+ A --&gt; B{&quot;目标为 Web，且改动涉及浏览器支持或兼容性修复&quot;}
+ A --&gt; S{&quot;使用 SSR、SSG 或同构渲染，且改动首屏、初始化数据、条件渲染或浏览器能力&quot;}
+ A --&gt; E{&quot;公开需索引且改动相关内容或索引控制，或明确要求 SEO 行为&quot;}
  I --&gt;|&quot;是&quot;| RI[&quot;检查国际化&quot;]
  T --&gt;|&quot;是&quot;| RT[&quot;检查主题&quot;]
  B --&gt;|&quot;是&quot;| RB[&quot;检查浏览器兼容&quot;]

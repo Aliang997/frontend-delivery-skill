@@ -4,12 +4,13 @@
 
 `frontend-delivery` 是面向 Codex 的通用前端需求交付 Skill。它根据任务影响和不确定性选择小改动、常规需求或完整流程，避免简单修改承担整套流程成本，同时为复杂需求保留评审、批准、恢复、验证和交付能力。
 
-当前稳定版本：**v2.2.0**
+当前稳定版本：**v2.3.0**
 
 ## 主要能力
 
 - 小改动、常规需求、完整流程三级分流。
 - 评审、计划、完整交付三种执行终点。
+- 区分本次代码交接完成与整体验收完成。
 - 按任务 ID 和版本管理批准、阻塞与局部失效。
 - 图片、截图和 Figma MCP UI 还原。
 - 动效还原与 Figma 来源变更检测。
@@ -21,6 +22,7 @@
 
 | 版本 | 主要变化 | 浏览 | 下载 |
 | --- | --- | --- | --- |
+| 2.3.0 | 实现交接边界、任务重批收紧、Figma 基线与 R8 相关性 | [查看](https://github.com/Aliang997/frontend-delivery-skill/tree/v2.3.0/skills/frontend-delivery) | [ZIP](https://github.com/Aliang997/frontend-delivery-skill/archive/refs/tags/v2.3.0.zip) |
 | 2.2.0 | 动效还原、Figma 变更检测、R8 条件性风险 | [查看](https://github.com/Aliang997/frontend-delivery-skill/tree/v2.2.0/skills/frontend-delivery) | [ZIP](https://github.com/Aliang997/frontend-delivery-skill/archive/refs/tags/v2.2.0.zip) |
 | 2.1.0 | 图片、截图与 Figma MCP UI 还原 | [查看](https://github.com/Aliang997/frontend-delivery-skill/tree/v2.1.0/skills/frontend-delivery) | [ZIP](https://github.com/Aliang997/frontend-delivery-skill/archive/refs/tags/v2.1.0.zip) |
 | 2.0.0 | 三级流程、任务级批准、恢复与风险检查 | [查看](https://github.com/Aliang997/frontend-delivery-skill/tree/v2.0.0/skills/frontend-delivery) | [ZIP](https://github.com/Aliang997/frontend-delivery-skill/archive/refs/tags/v2.0.0.zip) |
@@ -33,7 +35,7 @@
 把下面这句话发送给 Codex，即可安装当前稳定版本：
 
 ```text
-请安装 https://github.com/Aliang997/frontend-delivery-skill/tree/v2.2.0/skills/frontend-delivery
+请安装 https://github.com/Aliang997/frontend-delivery-skill/tree/v2.3.0/skills/frontend-delivery
 ```
 
 安装指定旧版本时，将地址中的版本号替换为对应 Tag，例如：

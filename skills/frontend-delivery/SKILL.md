@@ -2,7 +2,7 @@
 name: frontend-delivery
 description: 当前端需求需要评审、制定计划、实现页面或接口、修复问题、验证或交付时使用。支持 Web、H5、PC 管理端和小程序。明确的小改动使用简短路径，不强制进入完整流程。
 metadata:
-  version: "2.3.1"
+  version: "2.2.0"
 ---
 
 # Frontend Delivery

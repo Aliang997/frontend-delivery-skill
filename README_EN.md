@@ -4,7 +4,7 @@
 
 `frontend-delivery` is a general frontend delivery skill for Codex. It selects a lightweight change, regular delivery, or full workflow according to impact and uncertainty. Small edits stay lightweight, while complex work retains requirement review, scoped approval, recovery, verification, and delivery controls.
 
-Current stable version: **v2.3.1**
+Current stable version: **v2.2.0**
 
 ## Key capabilities
 
@@ -22,9 +22,7 @@ Current stable version: **v2.3.1**
 
 | Version | Main changes | Browse | Download |
 | --- | --- | --- | --- |
-| 2.3.1 | Sequential routing, regular floor for cross-project and shared changes, and concise lightweight results | [View](https://github.com/new-forever/frontend-delivery-skill/tree/v2.3.1/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v2.3.1.zip) |
-| 2.3.0 | Implementation handoff boundaries, narrower reapproval, Figma baselines, and R8 relevance | [View](https://github.com/new-forever/frontend-delivery-skill/tree/v2.3.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v2.3.0.zip) |
-| 2.2.0 | Motion recreation, Figma change detection, and conditional R8 risks | [View](https://github.com/new-forever/frontend-delivery-skill/tree/v2.2.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v2.2.0.zip) |
+| 2.2.0 | UI and motion recreation, conditional risks, implementation handoff, and sequential routing | [View](https://github.com/new-forever/frontend-delivery-skill/tree/v2.2.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v2.2.0.zip) |
 | 2.1.0 | Image, screenshot, and Figma MCP UI recreation | [View](https://github.com/new-forever/frontend-delivery-skill/tree/v2.1.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v2.1.0.zip) |
 | 2.0.0 | Three workflow depths, task scoped approval, recovery, and risk checks | [View](https://github.com/new-forever/frontend-delivery-skill/tree/v2.0.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v2.0.0.zip) |
 | 1.0.0 | Original five stage workflow with two gates | [View](https://github.com/new-forever/frontend-delivery-skill/tree/v1.0.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v1.0.0.zip) |
@@ -36,7 +34,7 @@ See [CHANGELOG.md](./skills/frontend-delivery/CHANGELOG.md) for details.
 Send the following request to Codex to install the current stable version:
 
 ```text
-Install https://github.com/new-forever/frontend-delivery-skill/tree/v2.3.1/skills/frontend-delivery
+Install https://github.com/new-forever/frontend-delivery-skill/tree/v2.2.0/skills/frontend-delivery
 ```
 
 To install an older version, replace the version in the URL with the required tag:

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Frontend Delivery v2.3.1 工作流程图</title>
+<title>Frontend Delivery v2.2.0 工作流程图</title>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 <style>
 :root { color-scheme:light; --blue:#2563eb; --ink:#172033; --muted:#5d687a; --line:#dbe3ef; --paper:#fff; --bg:#f4f7fb; }
@@ -26,7 +26,7 @@ footer { margin-top:28px; color:var(--muted); font-size:14px; }
 </head>
 <body>
 <main>
-<header><div class="version">v2.3.1</div><h1>Frontend Delivery 工作流程图</h1><p>本图对应 frontend-delivery v2.3.1。执行规则以同版本 SKILL.md 及 references/ 为准。</p><p>2.3.1 将流程深度改为顺序漏斗，明确常规流程下限、高风险边界及执行中的重新判断。</p></header>
+<header><div class="version">v2.2.0</div><h1>Frontend Delivery 工作流程图</h1><p>本图对应 frontend-delivery v2.2.0。执行规则以同版本 SKILL.md 及 references/ 为准。</p><p>2.2.0 汇总 UI 与动效还原、条件性风险、实现交接，以及顺序分流和执行中重新判断。</p></header>
 <nav class="toc"><a href="#diagram1">1. 流程深度选择</a><a href="#diagram2">2. 执行终点</a><a href="#diagram3">3. 完整流程与任务级批准</a><a href="#diagram4">4. 状态、产物与风险职责</a><a href="#diagram5">5. UI、动效与 Figma 来源闭环</a><a href="#diagram6">6. R8 条件性风险独立触发</a></nav>
 <section id="diagram1"><h2>1. 流程深度选择</h2><div class="diagram-card"><pre class="mermaid">flowchart TD
  A([&quot;接收前端需求&quot;]) --&gt; E[&quot;识别用户要求的执行终点&quot;]

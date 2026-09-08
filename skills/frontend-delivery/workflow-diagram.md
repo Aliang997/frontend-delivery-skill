@@ -1,8 +1,8 @@
-# Frontend Delivery v2.3.1 工作流程图
+# Frontend Delivery v2.2.0 工作流程图
 
-本图对应 frontend-delivery v2.3.1。执行规则以同版本 SKILL.md 及 references/ 为准。
+本图对应 frontend-delivery v2.2.0。执行规则以同版本 SKILL.md 及 references/ 为准。
 
-2.3.1 将流程深度改为顺序漏斗，明确常规流程下限、高风险边界及执行中的重新判断。
+2.2.0 汇总 UI 与动效还原、条件性风险、实现交接，以及顺序分流和执行中重新判断。
 
 ## 1. 流程深度选择
 

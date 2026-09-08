@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Frontend Delivery v2.3.0 工作流程图</title>
+<title>Frontend Delivery v2.3.1 工作流程图</title>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 <style>
 :root { color-scheme:light; --blue:#2563eb; --ink:#172033; --muted:#5d687a; --line:#dbe3ef; --paper:#fff; --bg:#f4f7fb; }
@@ -26,24 +26,29 @@ footer { margin-top:28px; color:var(--muted); font-size:14px; }
 </head>
 <body>
 <main>
-<header><div class="version">v2.3.0</div><h1>Frontend Delivery 工作流程图</h1><p>本图对应 frontend-delivery v2.3.0。执行规则以同版本 SKILL.md 及 references/ 为准。</p><p>2.3.0 收紧流程与批准边界，补充实现交接终点，并同步 Figma 基线确认及 R8 改动相关性条件。</p></header>
+<header><div class="version">v2.3.1</div><h1>Frontend Delivery 工作流程图</h1><p>本图对应 frontend-delivery v2.3.1。执行规则以同版本 SKILL.md 及 references/ 为准。</p><p>2.3.1 将流程深度改为顺序漏斗，明确常规流程下限、高风险边界及执行中的重新判断。</p></header>
 <nav class="toc"><a href="#diagram1">1. 流程深度选择</a><a href="#diagram2">2. 执行终点</a><a href="#diagram3">3. 完整流程与任务级批准</a><a href="#diagram4">4. 状态、产物与风险职责</a><a href="#diagram5">5. UI、动效与 Figma 来源闭环</a><a href="#diagram6">6. R8 条件性风险独立触发</a></nav>
 <section id="diagram1"><h2>1. 流程深度选择</h2><div class="diagram-card"><pre class="mermaid">flowchart TD
  A([&quot;接收前端需求&quot;]) --&gt; E[&quot;识别用户要求的执行终点&quot;]
- E --&gt; B{&quot;影响和不确定性&quot;}
- B --&gt;|&quot;明确、局部、低风险&quot;| S[&quot;小改动&quot;]
- B --&gt;|&quot;影响可控、兼容性明确&quot;| N[&quot;常规需求&quot;]
- B --&gt;|&quot;实质兼容风险、复杂依赖、关键规则分范围确认或高风险&quot;| F[&quot;完整流程&quot;]
+ E --&gt; FQ{&quot;权限、资金、隐私或敏感数据、不可逆操作、复杂依赖、跨项目契约、实质兼容风险或关键规则需分范围确认&quot;}
+ FQ --&gt;|&quot;是&quot;| F[&quot;完整流程&quot;]
+ FQ --&gt;|&quot;否&quot;| NQ{&quot;同时修改多个项目、共享内容、公共组件行为、公共配置或产生跨模块联动&quot;}
+ NQ --&gt;|&quot;是&quot;| N[&quot;常规需求&quot;]
+ NQ --&gt;|&quot;否&quot;| SQ{&quot;单项目、局部、行为明确、无公共影响且无未决关键问题&quot;}
+ SQ --&gt;|&quot;全部满足&quot;| S[&quot;小改动&quot;]
+ SQ --&gt;|&quot;未全部满足或无法确定&quot;| N
  S --&gt; S1[&quot;读取相关规范与代码&quot;]
- S1 --&gt; S2[&quot;按终点评审、计划或完成已授权修改&quot;]
+ S1 --&gt; S2[&quot;按终点完成任务，结果通常一至三项&quot;]
  N --&gt; N1[&quot;维护简短任务清单&quot;]
  N1 --&gt; N2{&quot;跨会话、交接、多项待确认、等待外部回复续做或用户要求记录&quot;}
  N2 --&gt;|&quot;是&quot;| N3[&quot;记录 task.md&quot;]
  N2 --&gt;|&quot;否&quot;| N4[&quot;在当前对话推进&quot;]
  F --&gt; F1[&quot;按阶段维护完整产物与状态&quot;]
- S2 --&gt; Z([&quot;按用户终点交付&quot;])
- N3 --&gt; Z
- N4 --&gt; Z
+ S2 --&gt; C{&quot;执行中发现新影响或实际依赖&quot;}
+ N3 --&gt; C
+ N4 --&gt; C
+ C --&gt;|&quot;是&quot;| FQ
+ C --&gt;|&quot;否&quot;| Z([&quot;按用户终点交付&quot;])
  F1 --&gt; Z</pre></div></section><section id="diagram2"><h2>2. 执行终点</h2><div class="diagram-card"><pre class="mermaid">flowchart LR
  A([&quot;用户请求&quot;]) --&gt; B{&quot;需要做到哪里&quot;}
  B --&gt;|&quot;只评审&quot;| R[&quot;分析需求、影响和问题&quot;]

@@ -4,7 +4,7 @@
 
 `frontend-delivery` is a general frontend delivery skill for Codex. It selects a lightweight change, regular delivery, or full workflow according to impact and uncertainty. Small edits stay lightweight, while complex work retains requirement review, scoped approval, recovery, verification, and delivery controls.
 
-Current stable version: **v2.3.0**
+Current stable version: **v2.3.1**
 
 ## Key capabilities
 
@@ -22,6 +22,7 @@ Current stable version: **v2.3.0**
 
 | Version | Main changes | Browse | Download |
 | --- | --- | --- | --- |
+| 2.3.1 | Sequential routing, regular floor for cross-project and shared changes, and concise lightweight results | [View](https://github.com/Aliang997/frontend-delivery-skill/tree/v2.3.1/skills/frontend-delivery) | [ZIP](https://github.com/Aliang997/frontend-delivery-skill/archive/refs/tags/v2.3.1.zip) |
 | 2.3.0 | Implementation handoff boundaries, narrower reapproval, Figma baselines, and R8 relevance | [View](https://github.com/Aliang997/frontend-delivery-skill/tree/v2.3.0/skills/frontend-delivery) | [ZIP](https://github.com/Aliang997/frontend-delivery-skill/archive/refs/tags/v2.3.0.zip) |
 | 2.2.0 | Motion recreation, Figma change detection, and conditional R8 risks | [View](https://github.com/Aliang997/frontend-delivery-skill/tree/v2.2.0/skills/frontend-delivery) | [ZIP](https://github.com/Aliang997/frontend-delivery-skill/archive/refs/tags/v2.2.0.zip) |
 | 2.1.0 | Image, screenshot, and Figma MCP UI recreation | [View](https://github.com/Aliang997/frontend-delivery-skill/tree/v2.1.0/skills/frontend-delivery) | [ZIP](https://github.com/Aliang997/frontend-delivery-skill/archive/refs/tags/v2.1.0.zip) |
@@ -35,7 +36,7 @@ See [CHANGELOG.md](./skills/frontend-delivery/CHANGELOG.md) for details.
 Send the following request to Codex to install the current stable version:
 
 ```text
-Install https://github.com/Aliang997/frontend-delivery-skill/tree/v2.3.0/skills/frontend-delivery
+Install https://github.com/Aliang997/frontend-delivery-skill/tree/v2.3.1/skills/frontend-delivery
 ```
 
 To install an older version, replace the version in the URL with the required tag:

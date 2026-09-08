@@ -2,9 +2,9 @@
 
 [简体中文](./README.md) | [English](./README_EN.md)
 
-`frontend-delivery` is a general frontend delivery skill for Codex. It selects a lightweight change, regular delivery, or full workflow according to impact and uncertainty. Small edits stay lightweight, while complex work retains requirement review, scoped approval, recovery, verification, and delivery controls.
+`frontend-delivery` is a general frontend delivery skill for AI coding assistants. It selects a lightweight change, regular delivery, or full workflow according to impact and uncertainty. Small edits stay lightweight, while complex work retains requirement review, scoped approval, recovery, verification, and delivery controls.
 
-Current stable version: **v2.2.0**
+Current stable version: **v2.0.0**
 
 ## Key capabilities
 
@@ -22,25 +22,29 @@ Current stable version: **v2.2.0**
 
 | Version | Main changes | Browse | Download |
 | --- | --- | --- | --- |
-| 2.2.0 | UI and motion recreation, conditional risks, implementation handoff, and sequential routing | [View](https://github.com/new-forever/frontend-delivery-skill/tree/v2.2.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v2.2.0.zip) |
-| 2.1.0 | Image, screenshot, and Figma MCP UI recreation | [View](https://github.com/new-forever/frontend-delivery-skill/tree/v2.1.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v2.1.0.zip) |
-| 2.0.0 | Three workflow depths, task scoped approval, recovery, and risk checks | [View](https://github.com/new-forever/frontend-delivery-skill/tree/v2.0.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v2.0.0.zip) |
+| 2.0.0 | Three workflow depths, UI/Figma and motion recreation, conditional risks, approval, recovery, and delivery | [View](https://github.com/new-forever/frontend-delivery-skill/tree/v2.0.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v2.0.0.zip) |
 | 1.0.0 | Original five stage workflow with two gates | [View](https://github.com/new-forever/frontend-delivery-skill/tree/v1.0.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v1.0.0.zip) |
 
 See [CHANGELOG.md](./skills/frontend-delivery/CHANGELOG.md) for details.
+
+## Compatibility
+
+The core rules work with AI coding assistants that can load SKILL.md files or custom project instructions. Installation paths, skill invocation syntax, and MCP tool names vary by host and should follow that tool's documentation.
+
+Figma UI and motion capabilities are enabled only when the current environment provides the required MCP tools or equivalent capabilities. Otherwise, follow the fallback rules in SKILL.md.
 
 ## Install with Codex
 
 Send the following request to Codex to install the current stable version:
 
 ```text
-Install https://github.com/new-forever/frontend-delivery-skill/tree/v2.2.0/skills/frontend-delivery
+Install https://github.com/new-forever/frontend-delivery-skill/tree/v2.0.0/skills/frontend-delivery
 ```
 
 To install an older version, replace the version in the URL with the required tag:
 
 ```text
-Install https://github.com/new-forever/frontend-delivery-skill/tree/v2.1.0/skills/frontend-delivery
+Install https://github.com/new-forever/frontend-delivery-skill/tree/v1.0.0/skills/frontend-delivery
 ```
 
 The skill becomes available on the next turn after installation.
@@ -49,7 +53,7 @@ The skill becomes available on the next turn after installation.
 
 1. Download and extract the ZIP for the required version.
 2. Locate the `skills/frontend-delivery` directory.
-3. Copy it to the Codex skills directory:
+3. Copy it to the skill or rules directory used by your AI coding assistant. Codex path examples:
 
 Windows:
 
@@ -63,32 +67,36 @@ macOS / Linux:
 ~/.codex/skills/frontend-delivery
 ```
 
+For other tools, use their documented directory. If automatic skill discovery is unavailable, ask the tool to read SKILL.md as the rules for the current task.
+
 Do not install multiple versions with the same skill name in one environment. To switch versions, back up or remove the existing `frontend-delivery` directory, then copy the selected version.
 
 ## Usage examples
 
+These examples use general natural language. Tools with dedicated skill syntax can invoke it using their own format.
+
 Review a requirement:
 
 ```text
-Use $frontend-delivery to review this frontend requirement and report only issues and risks.
+Use frontend-delivery to review this frontend requirement and report only issues and risks.
 ```
 
 Create a plan:
 
 ```text
-Use $frontend-delivery to create a frontend implementation plan without changing code.
+Use frontend-delivery to create a frontend implementation plan without changing code.
 ```
 
 Complete a lightweight change:
 
 ```text
-Use $frontend-delivery to update this button label and perform the necessary static checks.
+Use frontend-delivery to update this button label and perform the necessary static checks.
 ```
 
 Recreate a page from Figma:
 
 ```text
-Use $frontend-delivery to recreate this page from the following Figma node: <Figma node URL>
+Use frontend-delivery to recreate this page from the following Figma node: <Figma node URL>
 ```
 
 ## Repository structure
@@ -119,4 +127,4 @@ This project follows semantic versioning:
 - Minor: backward compatible capability additions.
 - Patch: rule or documentation corrections that preserve compatibility.
 
-Published tags remain immutable. When a historical version needs a correction, publish a new patch version such as `v2.2.1`.
+Published tags remain immutable. When a historical version needs a correction, publish a new patch version such as `v2.0.1`.

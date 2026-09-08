@@ -2,9 +2,9 @@
 
 [简体中文](./README.md) | [English](./README_EN.md)
 
-`frontend-delivery` 是面向 Codex 的通用前端需求交付 Skill。它根据任务影响和不确定性选择小改动、常规需求或完整流程，避免简单修改承担整套流程成本，同时为复杂需求保留评审、批准、恢复、验证和交付能力。
+`frontend-delivery` 是面向 AI 编程助手的通用前端需求交付 Skill。它根据任务影响和不确定性选择小改动、常规需求或完整流程，避免简单修改承担整套流程成本，同时为复杂需求保留评审、批准、恢复、验证和交付能力。
 
-当前稳定版本：**v2.2.0**
+当前稳定版本：**v2.0.0**
 
 ## 主要能力
 
@@ -22,25 +22,29 @@
 
 | 版本 | 主要变化 | 浏览 | 下载 |
 | --- | --- | --- | --- |
-| 2.2.0 | UI 与动效还原、条件性风险、实现交接及顺序分流 | [查看](https://github.com/new-forever/frontend-delivery-skill/tree/v2.2.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v2.2.0.zip) |
-| 2.1.0 | 图片、截图与 Figma MCP UI 还原 | [查看](https://github.com/new-forever/frontend-delivery-skill/tree/v2.1.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v2.1.0.zip) |
-| 2.0.0 | 三级流程、任务级批准、恢复与风险检查 | [查看](https://github.com/new-forever/frontend-delivery-skill/tree/v2.0.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v2.0.0.zip) |
+| 2.0.0 | 三级分流、UI/Figma 与动效还原、条件性风险、批准、恢复及交付 | [查看](https://github.com/new-forever/frontend-delivery-skill/tree/v2.0.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v2.0.0.zip) |
 | 1.0.0 | 原始五阶段、两道门禁流程 | [查看](https://github.com/new-forever/frontend-delivery-skill/tree/v1.0.0/skills/frontend-delivery) | [ZIP](https://github.com/new-forever/frontend-delivery-skill/archive/refs/tags/v1.0.0.zip) |
 
 完整变化见 [CHANGELOG.md](./skills/frontend-delivery/CHANGELOG.md)。
+
+## 兼容性
+
+核心规则可用于能够加载 SKILL.md 或自定义项目规则的 AI 编程助手。不同工具的安装目录、Skill 触发语法和 MCP 工具名可能不同，应按所用工具的说明适配。
+
+Figma UI 和动效能力仅在当前环境提供对应 MCP 或等价能力时启用；不可用时按 SKILL.md 中的降级规则处理。
 
 ## 使用 Codex 安装
 
 把下面这句话发送给 Codex，即可安装当前稳定版本：
 
 ```text
-请安装 https://github.com/new-forever/frontend-delivery-skill/tree/v2.2.0/skills/frontend-delivery
+请安装 https://github.com/new-forever/frontend-delivery-skill/tree/v2.0.0/skills/frontend-delivery
 ```
 
 安装指定旧版本时，将地址中的版本号替换为对应 Tag，例如：
 
 ```text
-请安装 https://github.com/new-forever/frontend-delivery-skill/tree/v2.1.0/skills/frontend-delivery
+请安装 https://github.com/new-forever/frontend-delivery-skill/tree/v1.0.0/skills/frontend-delivery
 ```
 
 安装完成后，Skill 会在下一轮对话中可用。
@@ -49,7 +53,7 @@
 
 1. 下载目标版本的 ZIP 并解压。
 2. 找到 `skills/frontend-delivery` 目录。
-3. 将该目录复制到 Codex Skill 目录：
+3. 将该目录复制到所用 AI 编程助手的 Skill 或规则目录。Codex 路径示例：
 
 Windows：
 
@@ -63,32 +67,36 @@ macOS / Linux：
 ~/.codex/skills/frontend-delivery
 ```
 
+其他工具请使用其官方指定目录；不支持自动发现 Skill 时，可让工具读取 SKILL.md 作为当前任务规则。
+
 同一环境不要同时安装多个同名版本。切换版本时，先备份或移除已有的 `frontend-delivery` 目录，再复制目标版本。
 
 ## 使用示例
 
+以下示例使用通用自然语言；支持专用 Skill 语法的工具也可按自身格式调用。
+
 评审需求：
 
 ```text
-使用 $frontend-delivery 评审这个前端需求，只输出问题和风险。
+使用 frontend-delivery 评审这个前端需求，只输出问题和风险。
 ```
 
 制定计划：
 
 ```text
-使用 $frontend-delivery 为这个需求制定前端实施计划，暂不修改代码。
+使用 frontend-delivery 为这个需求制定前端实施计划，暂不修改代码。
 ```
 
 完成小改动：
 
 ```text
-使用 $frontend-delivery 修改这个按钮文案，并做必要的静态检查。
+使用 frontend-delivery 修改这个按钮文案，并做必要的静态检查。
 ```
 
 按 Figma 还原页面：
 
 ```text
-使用 $frontend-delivery 按这个 Figma 节点还原页面：<Figma 节点链接>
+使用 frontend-delivery 按这个 Figma 节点还原页面：<Figma 节点链接>
 ```
 
 ## 目录结构
@@ -119,4 +127,4 @@ skills/frontend-delivery/
 - 次版本：增加向后兼容的能力。
 - 修订版本：修正规则或文档，不改变兼容性。
 
-已经公开的 Tag 保持不变。历史版本需要修正时发布新的修订版本，例如 `v2.2.1`。
+已经公开的 Tag 保持不变。历史版本需要修正时发布新的修订版本，例如 `v2.0.1`。

@@ -26,30 +26,31 @@ footer { margin-top:28px; color:var(--muted); font-size:14px; }
 </head>
 <body>
 <main>
-<header><div class="version">v2.0.0</div><h1>Frontend Delivery 工作流程图</h1><p>本图对应 frontend-delivery v2.0.0。执行规则以同版本 SKILL.md 及 references/ 为准。</p><p>2.0.0 汇总三级分流、UI 与动效还原、条件性风险、实现交接，以及执行中的重新判断。</p></header>
-<nav class="toc"><a href="#diagram1">1. 流程深度选择</a><a href="#diagram2">2. 执行终点</a><a href="#diagram3">3. 完整流程与任务级批准</a><a href="#diagram4">4. 状态、产物与风险职责</a><a href="#diagram5">5. UI、动效与 Figma 来源闭环</a><a href="#diagram6">6. R8 条件性风险独立触发</a></nav>
+<header><div class="version">v2.0.0</div><h1>Frontend Delivery 工作流程图</h1><p>本图对应 frontend-delivery v2.0.0。执行规则以同版本 SKILL.md 及 references/ 为准。</p><p>2.0.0 汇总三级分流、独立风险检查、按需产物、UI 与动效还原、实现交接，以及执行中的重新判断。</p></header>
+<nav class="toc"><a href="#diagram1">1. 流程深度选择</a><a href="#diagram2">2. 执行终点</a><a href="#diagram3">3. 完整流程与任务级批准</a><a href="#diagram4">4. 按需产物与独立风险职责</a><a href="#diagram5">5. UI、动效与 Figma 来源闭环</a><a href="#diagram6">6. R8 条件性风险独立触发</a></nav>
 <section id="diagram1"><h2>1. 流程深度选择</h2><div class="diagram-card"><pre class="mermaid">flowchart TD
  A([&quot;接收前端需求&quot;]) --&gt; E[&quot;识别用户要求的执行终点&quot;]
- E --&gt; FQ{&quot;权限、资金、隐私或敏感数据、不可逆操作、复杂依赖、跨项目契约、实质兼容风险或关键规则需分范围确认&quot;}
+ E --&gt; FQ{&quot;关键高风险规则不明、不可逆外部操作或迁移、复杂依赖、跨项目契约或需复杂状态追踪&quot;}
  FQ --&gt;|&quot;是&quot;| F[&quot;完整流程&quot;]
- FQ --&gt;|&quot;否&quot;| NQ{&quot;同时修改多个项目、共享内容、公共组件行为、公共配置或产生跨模块联动&quot;}
+ FQ --&gt;|&quot;否&quot;| NQ{&quot;多项目、共享或公共能力变化、跨模块联动，或需单独核对高风险与专项验证&quot;}
  NQ --&gt;|&quot;是&quot;| N[&quot;常规需求&quot;]
- NQ --&gt;|&quot;否&quot;| SQ{&quot;单项目、局部、行为明确、无公共影响且无未决关键问题&quot;}
+ NQ --&gt;|&quot;否&quot;| SQ{&quot;单项目、局部、行为明确、无公共影响、无高风险专项核对且无未决关键问题&quot;}
  SQ --&gt;|&quot;全部满足&quot;| S[&quot;小改动&quot;]
  SQ --&gt;|&quot;未全部满足或无法确定&quot;| N
  S --&gt; S1[&quot;读取相关规范与代码&quot;]
  S1 --&gt; S2[&quot;按终点完成任务，结果通常一至三项&quot;]
- N --&gt; N1[&quot;维护简短任务清单&quot;]
+ N --&gt; N1[&quot;维护简短任务清单，结果通常三至六项&quot;]
  N1 --&gt; N2{&quot;跨会话、交接、多项待确认、等待外部回复续做或用户要求记录&quot;}
  N2 --&gt;|&quot;是&quot;| N3[&quot;记录 task.md&quot;]
  N2 --&gt;|&quot;否&quot;| N4[&quot;在当前对话推进&quot;]
- F --&gt; F1[&quot;按阶段维护完整产物与状态&quot;]
- S2 --&gt; C{&quot;执行中发现新影响或实际依赖&quot;}
- N3 --&gt; C
- N4 --&gt; C
+ F --&gt; F1[&quot;按需要创建完整产物，必要时启用状态机&quot;]
+ S2 --&gt; R[&quot;按本次改动相关性选择 R1-R8&quot;]
+ N3 --&gt; R
+ N4 --&gt; R
+ F1 --&gt; R
+ R --&gt; C{&quot;执行中发现新影响、依赖、契约或风险&quot;}
  C --&gt;|&quot;是&quot;| FQ
- C --&gt;|&quot;否&quot;| Z([&quot;按用户终点交付&quot;])
- F1 --&gt; Z</pre></div></section><section id="diagram2"><h2>2. 执行终点</h2><div class="diagram-card"><pre class="mermaid">flowchart LR
+ C --&gt;|&quot;否&quot;| Z([&quot;按用户终点交付&quot;])</pre></div></section><section id="diagram2"><h2>2. 执行终点</h2><div class="diagram-card"><pre class="mermaid">flowchart LR
  A([&quot;用户请求&quot;]) --&gt; B{&quot;需要做到哪里&quot;}
  B --&gt;|&quot;只评审&quot;| R[&quot;分析需求、影响和问题&quot;]
  B --&gt;|&quot;只计划&quot;| P1[&quot;完成需求分析&quot;]
@@ -80,30 +81,27 @@ footer { margin-top:28px; color:var(--muted); font-size:14px; }
  G2 --&gt;|&quot;是&quot;| U[&quot;更新相关任务版本并核对批准与证据&quot;]
  G2 --&gt;|&quot;否&quot;| K[&quot;更新计划细节、沿用批准，核对受影响证据&quot;]
  K --&gt; P
- U --&gt; P</pre></div></section><section id="diagram4"><h2>4. 状态、产物与风险职责</h2><div class="diagram-card"><pre class="mermaid">flowchart LR
- C[&quot;context.md&quot;] --&gt; P[&quot;plan.md&quot;]
- P --&gt; I[&quot;实现&quot;]
- I --&gt; D[&quot;delivery.md&quot;]
- DEC[&quot;decisions.md&quot;] -. &quot;确认与批准历史&quot; .-&gt; C
- DEC -. &quot;确认与批准历史&quot; .-&gt; P
- WS[&quot;workflow-state.json&quot;] -. &quot;阶段、批准、阻塞、失效索引&quot; .-&gt; C
- WS -.-&gt; P
- WS -.-&gt; D
+ U --&gt; P</pre></div></section><section id="diagram4"><h2>4. 按需产物与独立风险职责</h2><div class="diagram-card"><pre class="mermaid">flowchart LR
+ F[&quot;完整流程&quot;] --&gt; C[&quot;context.md：上下文复杂或需交接&quot;]
+ F --&gt; P[&quot;plan.md：多任务、依赖或正式方案&quot;]
+ F --&gt; DEC[&quot;decisions.md：决策、批准或范围变化&quot;]
+ F --&gt; D[&quot;delivery.md：正式证据、发布准备或交接&quot;]
+ F --&gt; WS[&quot;workflow-state.json：复杂批准、阻塞、失效或恢复&quot;]
  R[&quot;R1-R8，R8 各维度独立触发&quot;] --&gt; V[&quot;按相关性选择验证&quot;]
- V --&gt; D
- E[&quot;项目代码评审、CI、发布要求&quot;] --&gt; D</pre></div></section><section id="diagram5"><h2>5. UI、动效与 Figma 来源闭环</h2><div class="diagram-card"><pre class="mermaid">flowchart TD
+ V --&gt; O[&quot;记录到对话、task.md 或已有完整产物&quot;]
+ E[&quot;项目代码评审、CI、发布要求&quot;] --&gt; O</pre></div></section><section id="diagram5"><h2>5. UI、动效与 Figma 来源闭环</h2><div class="diagram-card"><pre class="mermaid">flowchart TD
  A([&quot;收到 UI 还原任务&quot;]) --&gt; S{&quot;来源类型&quot;}
  S --&gt;|&quot;Figma 节点&quot;| F[&quot;读取设计上下文、组件、变量与资源&quot;]
  S --&gt;|&quot;图片、截图或切图&quot;| P[&quot;读取原图并映射状态、视口与资源&quot;]
  S --&gt;|&quot;Prototype、动效标注或参考视频&quot;| M[&quot;读取明确动效依据&quot;]
  F --&gt; B[&quot;记录节点、版本及固定比较依据&quot;]
  P --&gt; I[&quot;适配项目组件和设计变量&quot;]
- M --&gt; MM[&quot;映射触发、起止状态、时长、缓动与中断&quot;]
+ M --&gt; MM[&quot;映射触发、关键状态、方向、近似时长与中断&quot;]
  B --&gt; I
  MM --&gt; I
  I --&gt; V{&quot;证据类型&quot;}
  V --&gt;|&quot;静态视觉&quot;| SS[&quot;截图并与来源比较&quot;]
- V --&gt;|&quot;动效&quot;| MV[&quot;实际交互或录屏比较&quot;]
+ V --&gt;|&quot;动效&quot;| MV[&quot;人工走查实际交互，关键帧辅助&quot;]
  SS --&gt; E[&quot;记录视觉证据&quot;]
  MV --&gt; E
  B --&gt; R{&quot;跨会话、外部等待、长任务或交付前可能变化&quot;}
